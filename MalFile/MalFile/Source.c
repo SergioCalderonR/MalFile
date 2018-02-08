@@ -68,7 +68,7 @@ int wmain(int argc, WCHAR * argv[])
 			GENERIC_WRITE | GENERIC_WRITE,
 			FILE_SHARE_WRITE,
 			NULL, // Gets default security descriptor
-			CREATE_ALWAYS,
+			CREATE_ALWAYS, // Create a new file always
 			FILE_ATTRIBUTE_NORMAL,
 			NULL);
 
@@ -115,7 +115,7 @@ int wmain(int argc, WCHAR * argv[])
 		// Opening source file to get the data
 		hSourceFile = CreateFileW(fileName,
 			FILE_READ_DATA,
-			FILE_SHARE_READ,
+			FILE_SHARE_READ | FILE_SHARE_WRITE,
 			NULL,
 			OPEN_ALWAYS,
 			FILE_ATTRIBUTE_NORMAL,
@@ -179,7 +179,7 @@ int wmain(int argc, WCHAR * argv[])
 		HANDLE hDestinationFile;
 		LPWSTR pDestFileName = argv[3]; // Destination path passed as argument
 		DWORD destDesiredAccess = FILE_GENERIC_WRITE | FILE_GENERIC_READ;
-		DWORD destShareMode = FILE_SHARE_WRITE;
+		DWORD destShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
 		DWORD destCreationDisposition = CREATE_ALWAYS;
 
 
@@ -231,6 +231,7 @@ int wmain(int argc, WCHAR * argv[])
 		if (!DeleteFileW(fileName))
 		{
 			ShowError(GetLastError());
+			return 1;
 		}
 
 		wprintf(L"\nSource file has been deleted. \n");
